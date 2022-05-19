@@ -1,0 +1,7 @@
+.succeed {
+  color: rgb(17, 234, 57);
+}
+
+.error {
+  color: rgb(234, 57, 17);
+}

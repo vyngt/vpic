@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: mc_proxy:v1.2
+    container_name: nginx
+    volumes:
+      - ms_media:/srv/media/:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - backnet
+      - frontnet
+    ports:
+      - 8000:80
+    restart: on-failure
+  frontend:
+    image: mc_frontend:v2.1.0
+    container_name: frontend
+    networks:
+      - frontnet
+  backend:
+    image: mc_backend:v2.0.1
+    container_name: backend
+    depends_on:
+      - postgres
+    env_file:
+      - backend/.env
+    volumes:
+      - ms_media:/code/media/:rw
+    networks:
+      - backnet
+      - postgresql_net
+    command: ["./entrypoint/entrypoint.sh"]
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    env_file:
+      - postgresql/.env
+    volumes:
+      - ms_database:/var/lib/postgresql/data
+    networks:
+      - postgresql_net
+    restart: on-failure
+networks:
+  postgresql_net:
+  frontnet:
+  backnet:
+
+volumes:
+  ms_media:
+  ms_database:

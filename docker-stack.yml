@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: mc_proxy:v1.2
+    volumes:
+      - ms_media:/srv/media/:ro
+    networks:
+      - backnet
+      - frontnet
+    ports:
+      - 8000:80
+    deploy:
+      replicas: 1
+  frontend:
+    image: mc_frontend:v2.1.1
+    deploy:
+      replicas: 1
+    env_file:
+      - frontend/.env.production
+    networks:
+      - frontnet
+  backend:
+    image: mc_backend:v2.1.1
+    env_file:
+      - backend/.env
+    volumes:
+      - ms_media:/code/media/:rw
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    networks:
+      - backnet
+      - postgresql_net
+    command: ["./entrypoint/entrypoint.sh"]
+  postgres:
+    image: postgres:alpine
+    env_file:
+      - postgresql/.env
+    volumes:
+      - ms_database:/var/lib/postgresql/data
+    networks:
+      - postgresql_net
+    deploy:
+      replicas: 1
+
+networks:
+  postgresql_net:
+  backnet:
+  frontnet:
+
+volumes:
+  ms_media:
+  ms_database:

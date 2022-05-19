@@ -1,0 +1,11 @@
+/* .navigator {
+  background-color: rgb(2, 113, 50);
+} */
+
+.navigator-link a {
+  color: #df67bb;
+}
+
+.navigator-link a:hover {
+  color: #bce0ae;
+}

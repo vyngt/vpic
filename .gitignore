@@ -1,0 +1,33 @@
+.vscode
+
+# Experiment files
+raw_design
+video_converter
+.pylintrc
+filter.txt
+note.txt
+
+# Local script
+*.ps1
+
+# Backend temp files
+*.pyc
+*~
+.vscode
+__pycache__
+venv
+
+migrations
+
+
+# ----
+media
+
+db.sqlite3
+static
+temp
+
+.env
+.env.dev
+
+oidc.key

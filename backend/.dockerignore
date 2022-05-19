@@ -1,0 +1,24 @@
+*.pyc
+*~
+.vscode
+__pycache__
+venv
+
+migrations
+
+
+# ----
+Dockerfile
+.git
+.gitignore
+.dockerignore
+docker-compose.yml
+
+db.sqlite3
+static
+temp
+
+.env
+.env.dev
+
+oidc.key

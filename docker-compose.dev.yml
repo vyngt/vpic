@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  nginx:
+    build:
+      context: nginx/
+      dockerfile: Dockerfile
+    container_name: nginx
+    volumes:
+      - ms_dev_media:/srv/media/:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - backnet
+      - frontnet
+    ports:
+      - 8000:80
+    restart: on-failure
+  frontend:
+    build:
+      context: frontend/
+      dockerfile: Dockerfile.dev
+    container_name: frontend
+    networks:
+      - frontnet
+    volumes:
+      - ./frontend/:/code/
+      - /code/node_modules
+      # - /code/.yarn
+      - /code/.next
+    env_file:
+      - ./frontend/.env.development
+  backend:
+    build:
+      context: backend/
+      dockerfile: Dockerfile.dev
+    container_name: backend
+    depends_on:
+      - postgres
+    env_file:
+      - backend/.env.dev
+    volumes:
+      - ms_dev_media:/code/media/:rw
+      - ./backend/:/code/
+    networks:
+      - backnet
+      - postgresql_net
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    env_file:
+      - postgresql/.env
+    volumes:
+      - ms_dev_database:/var/lib/postgresql/data
+    networks:
+      - postgresql_net
+    restart: on-failure
+networks:
+  postgresql_net:
+  frontnet:
+  backnet:
+
+volumes:
+  ms_dev_media:
+  ms_dev_database:

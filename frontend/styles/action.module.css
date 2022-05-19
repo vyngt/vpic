@@ -1,0 +1,21 @@
+.action {
+  height: 100vh;
+}
+
+.action-link {
+  color: #c71d6c;
+  text-decoration: none;
+}
+
+.action-link:hover {
+  color: #4fcdc9;
+}
+
+.action-body {
+  background-color: #29b89b;
+  width: 20rem;
+}
+
+.action-body:hover {
+  background-color: #269f77;
+}

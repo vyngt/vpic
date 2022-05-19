@@ -1,0 +1,13 @@
+# Install dependencies only when needed
+FROM node:18
+
+COPY . /code
+WORKDIR /code
+
+ENV NODE_ENV=development
+
+RUN npm install
+
+EXPOSE 8000
+
+CMD ["npm", "run", "dev"]

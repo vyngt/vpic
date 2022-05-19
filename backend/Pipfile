@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+requests = "*"
+beautifulsoup4 = "*"
+psycopg2 = "*"
+gunicorn = "*"
+uvicorn = "*"
+pillow = "*"
+django-oauth-toolkit = "*"
+django-cors-headers = "*"
+
+[dev-packages]
+black = "*"
+
+[requires]
+python_version = "3.10"
